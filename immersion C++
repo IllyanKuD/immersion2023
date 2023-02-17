@@ -1,0 +1,209 @@
+/* Fichier TRAME à compléter */
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <array>
+#include <cmath>
+#include <cassert>
+using namespace std;
+
+
+const int TAILLE=9;
+using Solitaire = int[TAILLE][TAILLE] ;
+
+const int PION = 1;
+const int VIDE = 0;
+const int HORSGRILLE = -1;
+
+const char GAUCHE = 'G';
+const char DROITE = 'D';
+const char HAUT = 'H';
+const char BAS = 'B';
+
+void initGrille(int s[TAILLE][TAILLE])
+{
+    for(int i=0; i< TAILLE; i++)
+    {
+        for(int j=0; j< TAILLE; j++)
+        {
+            s[i][j] = HORSGRILLE;
+        }
+    }
+}
+
+void remplirGrille(int s[TAILLE][TAILLE])
+{
+    int debut= TAILLE/3;
+    for(int i=debut; i<(debut*2); i++)
+    {
+        for(int j=0; j<TAILLE; j++)
+        {
+            s[i][j]=PION;
+        }
+    }
+    for(int j=debut; j<(debut*2); j++)
+    {
+        for(int i=0; i<TAILLE; i++)
+        {
+            s[i][j]=PION;
+        }
+    }
+    s[debut+1][debut+1]=VIDE;
+}
+    
+void afficherGrille(int s[TAILLE][TAILLE])
+{
+    /* entete des colonnes*/
+    cout << "  ";
+    for(int j=0; j< TAILLE; j++)
+    {
+        cout << (j+1);
+    }
+    cout << endl;
+    /* lignes de la grille */
+    for(int i=0; i< TAILLE; i++)
+    {
+        cout << (i+1) << " ";
+        for(int j=0; j< TAILLE; j++)
+        {
+            if (s[i][j] == HORSGRILLE)
+            {
+                cout << ".";
+            }
+            else if (s[i][j] == PION)
+            {
+                cout << "1";
+            }
+            else
+            {
+                cout << " ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+int nbPions(int s[TAILLE][TAILLE])
+{
+    int ct = 0;
+    for(int i=0; i< TAILLE; i++)
+    {
+        for(int j=0; j< TAILLE; j++)
+        {
+            if (s[i][j]==PION)
+            {
+                ct= ct+1;
+            }
+        }
+        
+    }
+    return ct;
+}
+
+// écrire les autres fonctions demandées ici
+bool estPriseHD(int s[TAILLE][TAILLE], int x, int y)
+     
+{ 
+    if (s[x+1][y]==PION && s[x+2][y]==VIDE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool estPriseHG(int s[TAILLE][TAILLE], int x, int y)
+{ 
+    if (s[x-1][y]==PION && s[x-2][y]==VIDE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool estPriseVH(int s[TAILLE][TAILLE], int x, int y)
+{ 
+    if (s[x][y+1]==PION && s[x][y+2]==VIDE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool estPriseVB(int s[TAILLE][TAILLE], int x, int y)
+{ 
+    if (s[x][y-1]==PION && s[x][y-2]==VIDE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool estPrise(int s[TAILLE][TAILLE], int x, int y, char Dep)
+{
+    if (Dep==HAUT)
+    {
+        return estPriseVH(s,x,y);
+    }
+    if (Dep==BAS)
+    {
+        return estPriseVB(s,x,y);
+    }
+    if (Dep==GAUCHE)
+    {
+        return estPriseHG(s,x,y);
+    }
+    if (Dep==DROITE)
+    {
+        return estPriseHD(s,x,y);
+    }
+    return false;
+}
+void priseHD(int s[TAILLE][TAILLE], int x, int y)
+{
+    if (estPrise(s,x,y,'D'))
+    {
+        s[x][y]==VIDE;
+        s[x+1][y]==VIDE;
+        s[x+2][y]==PION;
+
+    }
+}
+
+
+
+int main()
+{
+    /* DECLARATIONS */
+    int s[TAILLE][TAILLE];
+    int x,
+        y;
+    char dep;
+    /* INITIALISATION */
+    initGrille(s);
+    remplirGrille(s);
+    afficherGrille(s);
+    /* TRAITEMENT */
+    cout<<"pions:"<<nbPions(s)<<endl;
+    cout<<"Droite:"<<estPriseHD(s,2,4)<<endl;
+    cout<<"GAUCHE:"<<estPriseHG(s,6,4)<<endl;
+    cout<<"HAUT:"<<estPriseVH(s,4,2)<<endl;
+    cout<<"BAS:"<<estPriseVB(s,4,6)<<endl;
+    cout<<estPrise(s,4,2,'H');
+    priseHD(s,2,4);
+    afficherGrille(s);
+        //à compléter
+
+    /* FIN */
+    return EXIT_SUCCESS;
+}
