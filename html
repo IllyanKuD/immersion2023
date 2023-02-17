@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Premier Javascript</title>
+</head>
+<body>
+cette page affiche un "hello world" dans la console du navigateur
+
+<script src="hello_world.js"></script>
+<script>
+    //WRAPPING
+    (function(){
+        let ma_variable=100
+        console.log(ma_variable+10)
+    })()
+
+</script>
+
+<script>
+    function coucou(){
+        alert('coucou !')
+    }
+</script>
+<button onclick="coucou()"> Click ici
+</button>
+
+<button onmouseout="coucou()"> Click ici2
+</button>
+
+
+<button 
+    onclick="btnClick()" 
+    onmouseenter="btnMouseEnter(event)" 
+    onmouseout="btnMouseOut(event)"
+>Play with Me !
+</button>
+</body>
+
+
+</html>
